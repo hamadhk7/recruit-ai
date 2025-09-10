@@ -2,6 +2,7 @@
   "name": "recruitment-ai-backend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -9,17 +10,34 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/swagger-jsdoc": "^6.0.4",
+    "bcryptjs": "^3.0.2",
+    "canvas": "^3.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.543.0",
+    "mongoose": "^8.18.1",
+    "multer": "^2.0.2",
+    "next": "15.5.2",
+    "openai": "^5.20.0",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^5.4.149",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.2"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-react": "^5.29.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

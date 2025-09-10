@@ -1,24 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Recruitment AI Backend
+
+An AI-powered recruitment platform built with Next.js that helps organizations manage jobs, candidates, and automatically match candidates to job positions using AI.
+
+## Features
+
+- **Organization Management**: Create and manage organizations
+- **Job Posting**: Create, update, and manage job postings
+- **Candidate Management**: Upload and process candidate resumes with AI
+- **AI-Powered Matching**: Automatically match candidates to jobs using AI analysis
+- **Analytics Dashboard**: Comprehensive analytics and reporting
+- **File Upload**: Support for PDF, DOC, DOCX, and TXT resume files
+- **Interactive API Documentation**: Complete Swagger/OpenAPI documentation
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- MongoDB database
+- OpenAI API key (for AI features)
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Set up environment variables:
+```bash
+# Create .env.local file
+MONGODB_URI=your_mongodb_connection_string
+OPENAI_API_KEY=your_openai_api_key
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. Open [http://localhost:3000](http://localhost:3000) to see the application
+
+## API Documentation
+
+The API includes comprehensive Swagger documentation with interactive testing capabilities:
+
+- **Interactive Documentation**: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+- **Swagger JSON Spec**: [http://localhost:3000/api/swagger](http://localhost:3000/api/swagger)
+
+### API Endpoints
+
+- `GET/POST /api/organizations` - Organization management
+- `GET/POST /api/jobs` - Job posting management  
+- `GET/PUT/DELETE /api/jobs/{id}` - Individual job operations
+- `GET/POST /api/candidates` - Candidate management
+- `GET /api/matches` - View all matches
+- `GET /api/matches/{jobId}` - Get matches for specific job
+- `POST /api/matches/generate` - Generate AI matches for a job
+- `GET /api/analytics` - Analytics and dashboard data
+- `POST /api/upload` - File upload and processing
+- `GET /api/test` - Health check
+
+## Technology Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Database**: MongoDB with Mongoose
+- **AI**: OpenAI GPT for resume parsing and job matching
+- **File Processing**: Support for PDF, DOC, DOCX, TXT files
+- **Documentation**: Swagger/OpenAPI 3.0 with Swagger UI
+- **Language**: TypeScript
 
 ## Learn More
 
