@@ -28,18 +28,14 @@ export default function Home() {
       <div className="relative z-10 container mx-auto px-lg sm:px-xl lg:px-2xl py-2xl">
         {/* Header Section */}
         <header className="text-center section-spacing">
-          <div className="flex items-center justify-center mb-2xl group">
-            <div className="relative mr-xl">
-              <Target className="h-20 w-20 text-green-400 transition-all duration-500 group-hover:scale-110 group-hover:rotate-12" />
-              <div className="absolute inset-0 bg-green-400/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-            </div>
+          <div className="flex items-center justify-center mb-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               Recruitment AI
             </h1>
           </div>
           <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Intelligent recruitment platform powered by AI. Automatically process CVs, 
-            extract candidate information, and match candidates to job requirements with 
+            Intelligent recruitment platform powered by AI. Automatically process CVs,
+            extract candidate information, and match candidates to job requirements with
             <span className="text-green-400 font-semibold"> advanced scoring and analysis</span>.
           </p>
         </header>
@@ -58,7 +54,7 @@ export default function Home() {
                 Smart CV Processing
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Upload CVs in any format and let AI extract structured information automatically with 
+                Upload CVs in any format and let AI extract structured information automatically with
                 <span className="text-blue-400 font-semibold"> lightning-fast processing</span>.
               </p>
             </div>
@@ -74,7 +70,7 @@ export default function Home() {
                 AI-Powered Matching
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Get objective match scores and detailed analysis for each candidate-job pairing with 
+                Get objective match scores and detailed analysis for each candidate-job pairing with
                 <span className="text-green-400 font-semibold"> advanced algorithms</span>.
               </p>
             </div>
@@ -90,7 +86,7 @@ export default function Home() {
                 Candidate Management
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Organize and track candidates with comprehensive profiles and contact information in a 
+                Organize and track candidates with comprehensive profiles and contact information in a
                 <span className="text-purple-400 font-semibold"> unified dashboard</span>.
               </p>
             </div>
@@ -106,7 +102,7 @@ export default function Home() {
                 Analytics & Insights
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Track recruitment metrics, score distributions, and hiring trends with 
+                Track recruitment metrics, score distributions, and hiring trends with
                 <span className="text-yellow-400 font-semibold"> real-time analytics</span>.
               </p>
             </div>
@@ -118,7 +114,7 @@ export default function Home() {
           <div className="card bg-white/10 backdrop-blur-xl border-white/20 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-blue-500/5 to-purple-500/5 rounded-2xl"></div>
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-blue-400 to-purple-400"></div>
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-3xl bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
                 How It Works
@@ -135,11 +131,11 @@ export default function Home() {
                     Create Jobs
                   </h3>
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                    Define job requirements, skills, and experience needed for each position with 
+                    Define job requirements, skills, and experience needed for each position with
                     <span className="text-blue-400 font-semibold"> intelligent templates</span>.
                   </p>
                 </div>
-                
+
                 <div className="text-center group">
                   <div className="relative mb-2xl">
                     <div className="bg-gradient-to-r from-green-500/20 to-green-600/20 rounded-full w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
@@ -151,11 +147,11 @@ export default function Home() {
                     Upload CVs
                   </h3>
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                    Candidates upload their CVs, and AI automatically extracts and structures the information with 
+                    Candidates upload their CVs, and AI automatically extracts and structures the information with
                     <span className="text-green-400 font-semibold"> 99% accuracy</span>.
                   </p>
                 </div>
-                
+
                 <div className="text-center group">
                   <div className="relative mb-2xl">
                     <div className="bg-gradient-to-r from-purple-500/20 to-purple-600/20 rounded-full w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
@@ -167,7 +163,7 @@ export default function Home() {
                     Get Matches
                   </h3>
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                    AI analyzes and scores each candidate against job requirements with detailed insights and 
+                    AI analyzes and scores each candidate against job requirements with detailed insights and
                     <span className="text-purple-400 font-semibold"> actionable recommendations</span>.
                   </p>
                 </div>
@@ -183,7 +179,7 @@ export default function Home() {
             <div className="relative z-10 space-y-lg">
               <h2 className="text-3xl md:text-4xl font-bold">Ready to Transform Your Recruitment?</h2>
               <p className="text-blue-100 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
-                Start using AI-powered recruitment to find the best candidates faster and more accurately with 
+                Start using AI-powered recruitment to find the best candidates faster and more accurately with
                 <span className="text-yellow-300 font-semibold"> cutting-edge technology</span>.
               </p>
               <button
@@ -195,7 +191,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          
+
           <div className="mt-xl flex items-center justify-center space-x-md text-gray-400">
             <div className="flex items-center">
               <div className="w-2 h-2 bg-green-400 rounded-full mr-sm animate-pulse"></div>

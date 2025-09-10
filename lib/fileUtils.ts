@@ -65,16 +65,25 @@ export async function extractTextFromPDF(
     // Import pdf-parse dynamically
     const pdfParse = (await import('pdf-parse')).default;
     
-    // Parse the PDF with error handling for ENOENT issue
+    // Parse the PDF with enhanced error handling for ENOENT issue
     let pdfData;
     try {
-      pdfData = await pdfParse(buffer);
+      pdfData = await pdfParse(buffer, {
+        // Disable external dependencies that might cause ENOENT errors
+        max: 0, // Disable page limit
+        version: 'v1.10.100' // Use specific version
+      });
     } catch (parseError: unknown) {
       // Handle the known ENOENT issue with pdf-parse
-      if (parseError instanceof Error && 'code' in parseError && parseError.code === 'ENOENT' && 'path' in parseError && typeof parseError.path === 'string' && parseError.path.includes('test/data')) {
-        console.warn('⚠️ pdf-parse ENOENT test file issue detected, retrying...');
-        // Try again - sometimes it works on retry
-        pdfData = await pdfParse(buffer);
+      if (parseError instanceof Error && 'code' in parseError && parseError.code === 'ENOENT') {
+        console.warn('⚠️ pdf-parse ENOENT issue detected, trying alternative approach...');
+        try {
+          // Try with minimal options to avoid external file dependencies
+          pdfData = await pdfParse(buffer, { max: 0 });
+        } catch (retryError) {
+          console.warn('⚠️ Retry failed, using fallback approach...');
+          throw parseError; // Will be caught by outer try-catch for fallback handling
+        }
       } else {
         throw parseError;
       }

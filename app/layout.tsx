@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
+// Using system fonts to avoid build issues
+const geistSans = {
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap',
-});
+  className: "font-sans"
+};
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap',
-});
+const geistMono = {
+  variable: "--font-geist-mono", 
+  className: "font-mono"
+};
 
 export const metadata: Metadata = {
   title: "Recruitment AI - AI-Powered Hiring Platform",

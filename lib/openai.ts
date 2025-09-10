@@ -3,17 +3,17 @@ import OpenAI from 'openai';
 // Fallback parsing when OpenAI API is unavailable
 function createFallbackParseResult(resumeText: string) {
   console.log('🔄 Creating fallback parse result...');
-  
+
   // Extract name from filename or text patterns
   let nameFromFile = "Unknown Candidate";
-  
+
   // Try to find name patterns in the text
   const namePatterns = [
     /^([A-Z][a-z]+ [A-Z][a-z]+)/m, // First line name pattern
     /Name:\s*([A-Z][a-z]+ [A-Z][a-z]+)/i,
     /([A-Z][a-z]+ [A-Z][a-z]+)\s*\n/m // Name followed by newline
   ];
-  
+
   for (const pattern of namePatterns) {
     const match = resumeText.match(pattern);
     if (match && match[1]) {
@@ -21,29 +21,29 @@ function createFallbackParseResult(resumeText: string) {
       break;
     }
   }
-  
+
   // Extract email
   const emailMatch = resumeText.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
   const email = emailMatch ? emailMatch[1] : null;
-  
+
   // Extract phone
   const phoneMatch = resumeText.match(/(\+?[\d\s\-\(\)]{10,})/);
   const phone = phoneMatch ? phoneMatch[1].trim() : null;
-  
+
   // Extract basic skills (common tech keywords)
   const skillKeywords = [
-    'JavaScript', 'Python', 'Java', 'React', 'Node.js', 'HTML', 'CSS', 
+    'JavaScript', 'Python', 'Java', 'React', 'Node.js', 'HTML', 'CSS',
     'SQL', 'MongoDB', 'PostgreSQL', 'AWS', 'Docker', 'Git', 'TypeScript',
     'Angular', 'Vue', 'PHP', 'C++', 'C#', '.NET', 'Ruby', 'Go', 'Rust'
   ];
-  
-  const foundSkills = skillKeywords.filter(skill => 
+
+  const foundSkills = skillKeywords.filter(skill =>
     resumeText.toLowerCase().includes(skill.toLowerCase())
   );
-  
+
   // Basic experience extraction
   const experienceYears = extractExperienceYears(resumeText);
-  
+
   return {
     name: nameFromFile,
     email,
@@ -71,7 +71,7 @@ function extractExperienceYears(text: string): number {
     /experience.*?(\d+)\+?\s*years?/i,
     /(\d+)\+?\s*years?\s*in/i
   ];
-  
+
   for (const pattern of yearPatterns) {
     const match = text.match(pattern);
     if (match && match[1]) {
@@ -81,16 +81,25 @@ function extractExperienceYears(text: string): number {
       }
     }
   }
-  
+
   return 0;
 }
 
+// Debug: Check if API key is loaded
+console.log('OpenAI API Key loaded:', process.env.OPENAI_API_KEY ? 'Yes' : 'No');
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || 'dummy-key-for-fallback',
 });
 
 export async function parseResumeWithAI(resumeText: string) {
   try {
+    // Check if OpenAI API key is available
+    if (!process.env.OPENAI_API_KEY) {
+      console.warn('⚠️ OpenAI API key not configured, using fallback parsing');
+      return createFallbackParseResult(resumeText);
+    }
+
     const prompt = `
 You are an expert resume parser. Extract ALL relevant information from this resume text. 
 
@@ -177,9 +186,9 @@ ${resumeText}
       completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
-          { 
-            role: "system", 
-            content: "You are a professional resume parser. Extract information accurately and return ONLY valid JSON. No explanations or additional text." 
+          {
+            role: "system",
+            content: "You are a professional resume parser. Extract information accurately and return ONLY valid JSON. No explanations or additional text."
           },
           { role: "user", content: prompt }
         ],
@@ -188,16 +197,20 @@ ${resumeText}
       });
     } catch (apiError: any) {
       console.error('OpenAI API error:', apiError);
-      
+
       // Handle quota exceeded or other API errors gracefully
       if (apiError.status === 429 || apiError.code === 'insufficient_quota') {
         console.warn('⚠️ OpenAI quota exceeded, using fallback parsing...');
+        return createFallbackParseResult(resumeText);
+      } else if (apiError.status === 401) {
+        console.warn('⚠️ OpenAI API key invalid, using fallback parsing...');
         return createFallbackParseResult(resumeText);
       } else if (apiError.status >= 500) {
         console.warn('⚠️ OpenAI service error, using fallback parsing...');
         return createFallbackParseResult(resumeText);
       } else {
-        throw apiError; // Re-throw other errors
+        console.warn('⚠️ OpenAI API error, using fallback parsing...');
+        return createFallbackParseResult(resumeText);
       }
     }
 
@@ -215,13 +228,13 @@ ${resumeText}
     return JSON.parse(jsonMatch[0]);
   } catch (error) {
     console.error('OpenAI parsing error:', error);
-    
+
     // Try to extract name manually from the resume text as fallback
     let fallbackName = "Unknown Candidate";
     let fallbackEmail = null;
     let fallbackPhone = null;
     let fallbackSkills = [];
-    
+
     if (resumeText) {
       // Check if this is a PDF placeholder and try to extract name from filename
       if (resumeText.includes("PDF Document:")) {
@@ -235,7 +248,7 @@ ${resumeText}
             .replace(/\b(cv|resume|curriculum|vitae)\b/gi, '') // Remove common resume words
             .replace(/\d+/g, '') // Remove numbers
             .trim();
-          
+
           // Capitalize each word
           if (nameFromFile && nameFromFile.length > 2) {
             fallbackName = nameFromFile
@@ -247,26 +260,26 @@ ${resumeText}
         }
       }
       const lines = resumeText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-      
+
       // Look for name patterns in the first few lines
       for (let i = 0; i < Math.min(10, lines.length); i++) {
         const line = lines[i];
-        
+
         // Skip common resume headers and contact info lines
-        if (line.toLowerCase().includes('resume') || 
-            line.toLowerCase().includes('curriculum vitae') || 
-            line.toLowerCase().includes('cv') ||
-            line.toLowerCase().includes('email:') ||
-            line.toLowerCase().includes('phone:') ||
-            line.toLowerCase().includes('mobile:') ||
-            line.toLowerCase().includes('address:') ||
-            line.toLowerCase().includes('linkedin:') ||
-            line.includes('@') || 
-            line.match(/^\+?\d/) ||
-            line.match(/^\(\d/)) {
+        if (line.toLowerCase().includes('resume') ||
+          line.toLowerCase().includes('curriculum vitae') ||
+          line.toLowerCase().includes('cv') ||
+          line.toLowerCase().includes('email:') ||
+          line.toLowerCase().includes('phone:') ||
+          line.toLowerCase().includes('mobile:') ||
+          line.toLowerCase().includes('address:') ||
+          line.toLowerCase().includes('linkedin:') ||
+          line.includes('@') ||
+          line.match(/^\+?\d/) ||
+          line.match(/^\(\d/)) {
           continue;
         }
-        
+
         // Look for name patterns (2-4 words, each starting with capital letter)
         const namePattern = /^[A-Z][a-z]+ [A-Z][a-z]+(?:\s[A-Z][a-z]+)?(?:\s[A-Z][a-z]+)?$/;
         if (namePattern.test(line) && line.length < 50 && line.length > 5) {
@@ -274,29 +287,29 @@ ${resumeText}
           break;
         }
       }
-      
+
       // Extract email as fallback
       const emailMatch = resumeText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
       if (emailMatch) {
         fallbackEmail = emailMatch[0];
       }
-      
+
       // Extract phone as fallback
       const phoneMatch = resumeText.match(/(\+\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
       if (phoneMatch) {
         fallbackPhone = phoneMatch[0];
       }
-      
+
       // Extract some basic skills as fallback
       const commonSkills = ['JavaScript', 'Python', 'Java', 'React', 'Node.js', 'SQL', 'HTML', 'CSS', 'Git', 'Docker', 'AWS', 'MongoDB', 'PostgreSQL', 'TypeScript', 'Angular', 'Vue', 'PHP', 'C++', 'C#', '.NET', 'Spring', 'Django', 'Flask', 'Express', 'Redux', 'GraphQL', 'REST', 'API', 'Microservices', 'Kubernetes', 'Jenkins', 'CI/CD', 'Agile', 'Scrum'];
-      
+
       for (const skill of commonSkills) {
         if (resumeText.toLowerCase().includes(skill.toLowerCase())) {
           fallbackSkills.push(skill);
         }
       }
     }
-    
+
     // Return a basic structure with extracted fallback data if AI fails
     return {
       name: fallbackName,
@@ -362,9 +375,9 @@ Recommendation options: "strong_fit", "good_fit", "potential_fit", "weak_fit", "
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { 
-          role: "system", 
-          content: "You are an expert recruiter. Analyze job-candidate fit objectively and return ONLY valid JSON." 
+        {
+          role: "system",
+          content: "You are an expert recruiter. Analyze job-candidate fit objectively and return ONLY valid JSON."
         },
         { role: "user", content: prompt }
       ],

@@ -1,16 +1,38 @@
-# 🎯 Recruitment AI Backend
+# 🎯 Recruitment AI Platform
 
-An AI-powered recruitment platform built with Next.js that helps organizations manage jobs, candidates, and automatically match candidates to job positions using AI.
+A comprehensive AI-powered recruitment platform that automates CV screening and candidate matching for recruitment companies. Built to handle 500+ CVs per job posting with intelligent AI analysis and scoring.
 
-## Features
+## 🚀 Problem Solved
 
-- **Organization Management**: Create and manage organizations
-- **Job Posting**: Create, update, and manage job postings
-- **Candidate Management**: Upload and process candidate resumes with AI
-- **AI-Powered Matching**: Automatically match candidates to jobs using AI analysis
-- **Analytics Dashboard**: Comprehensive analytics and reporting
-- **File Upload**: Support for PDF, DOC, DOCX, and TXT resume files
-- **Interactive API Documentation**: Complete Swagger/OpenAPI documentation
+**Challenge**: Recruitment companies receive 500+ CVs per job posting, making manual screening time-consuming and inefficient for recruitment teams.
+
+**Solution**: AI-powered platform that automatically processes CVs, matches candidates to job descriptions, and provides scored rankings with detailed AI-generated recommendations.
+
+## ✨ Key Features
+
+### 🤖 AI-Powered Core
+- **Intelligent CV Processing**: Advanced PDF/DOC/TXT extraction with AI parsing
+- **Smart Job Matching**: AI-driven candidate scoring (0-100) with detailed reasoning
+- **Automated Screening**: Process hundreds of CVs automatically
+- **Quality Assessment**: Content validation and extraction quality scoring
+
+### 💼 Recruitment Management
+- **Multi-Organization Support**: SaaS-ready multi-tenant architecture
+- **Job Posting Management**: Complete job lifecycle management
+- **Candidate Database**: Comprehensive candidate profiles with AI summaries
+- **Bulk Operations**: Mass CV upload and processing capabilities
+
+### 📊 Analytics & Insights
+- **Interactive Dashboard**: Real-time recruitment analytics
+- **Match Scoring**: Detailed compatibility analysis with strengths/concerns
+- **Performance Metrics**: Processing statistics and success rates
+- **Recruiter Tools**: Advanced search, filtering, and candidate management
+
+### 🔧 Enterprise Features
+- **Robust File Processing**: Multi-format support with error recovery
+- **RESTful API**: Complete API with Swagger documentation
+- **Scalable Architecture**: Designed for high-volume processing
+- **Security & Validation**: Comprehensive input validation and error handling
 
 ## Getting Started
 

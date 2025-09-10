@@ -17,7 +17,7 @@ import {
   Eye,
   Plus,
   BarChart3,
-  Target,
+
   CheckCircle,
   AlertCircle,
   Clock
@@ -198,28 +198,28 @@ export default function RecruitmentDashboard() {
   const downloadCV = async (candidateId: string, fileName: string) => {
     try {
       const response = await fetch(`/api/candidates/${candidateId}/download`);
-      
+
       if (!response.ok) {
         throw new Error('Download failed');
       }
 
       // Create blob from response
       const blob = await response.blob();
-      
+
       // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = fileName;
-      
+
       // Trigger download
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
     } catch (error) {
       console.error('Download error:', error);
       alert('Failed to download CV. Please try again.');
@@ -276,11 +276,7 @@ export default function RecruitmentDashboard() {
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-xl border-b border-border">
         <div className="container mx-auto">
           <div className="flex justify-between items-center py-lg">
-            <div className="flex items-center group">
-              <div className="relative mr-lg">
-                <Target className="h-10 w-10 text-accent transition-all duration-300 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-accent/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
+            <div className="flex items-center">
               <h1 className="text-2xl md:text-3xl font-bold text-foreground">
                 Recruitment AI
               </h1>
@@ -288,13 +284,12 @@ export default function RecruitmentDashboard() {
 
             <div className="flex items-center space-x-lg">
               <div className="relative group hidden md:block">
-                <Search className="h-5 w-5 absolute left-md top-1/2 transform -translate-y-1/2 text-muted group-focus-within:text-accent transition-colors duration-300" />
                 <input
                   type="text"
-                  placeholder="Search candidates, jobs, or skills..."
+                  placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-xl pr-lg py-md bg-background border border-border rounded-lg text-foreground placeholder-muted focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-300 w-80"
+                  className="px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder-muted focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-300 w-80"
                 />
               </div>
 
@@ -318,7 +313,7 @@ export default function RecruitmentDashboard() {
               { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
               { id: 'jobs', label: 'Jobs', icon: Briefcase },
               { id: 'candidates', label: 'Candidates', icon: Users },
-              { id: 'matches', label: 'Matches', icon: Target },
+              { id: 'matches', label: 'Matches', icon: BarChart3 },
               { id: 'upload', label: 'Upload CV', icon: Upload },
             ].map(({ id, label, icon: Icon }) => (
               <button
@@ -370,7 +365,7 @@ export default function RecruitmentDashboard() {
                 <div className="card hover-lift transition group">
                   <div className="flex items-center gap-lg">
                     <div className="p-md bg-purple-500/10 rounded-xl group-hover:bg-purple-500/20 transition-colors duration-300">
-                      <Target className="h-8 w-8 text-purple-500" />
+                      <BarChart3 className="h-8 w-8 text-purple-500" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-muted mb-xs">Total Matches</p>
@@ -455,7 +450,7 @@ export default function RecruitmentDashboard() {
                   ))}
                   {analytics.topMatches.length === 0 && (
                     <div className="text-center py-2xl">
-                      <Target className="h-12 w-12 text-muted mx-auto mb-lg" />
+                      <BarChart3 className="h-12 w-12 text-muted mx-auto mb-lg" />
                       <p className="text-muted">No matches found. Generate matches for jobs to see results here.</p>
                     </div>
                   )}
@@ -652,7 +647,7 @@ export default function RecruitmentDashboard() {
                       >
                         View Details
                       </button>
-                      <button 
+                      <button
                         onClick={() => downloadCV(candidate._id, candidate.originalFileName || candidate.fileName || 'CV.pdf')}
                         className="btn-secondary px-md py-sm rounded-lg text-sm font-medium hover-lift transition"
                         title="Download CV"
@@ -743,9 +738,9 @@ export default function RecruitmentDashboard() {
                         <button className="btn-secondary p-md rounded-lg hover-lift transition" title="Call">
                           <Phone className="h-4 w-4" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => downloadCV(match.candidateId._id, match.candidateId.originalFileName || match.candidateId.fileName || 'CV.pdf')}
-                          className="btn-secondary p-md rounded-lg hover-lift transition" 
+                          className="btn-secondary p-md rounded-lg hover-lift transition"
                           title="Download CV"
                         >
                           <Download className="h-4 w-4" />
@@ -791,7 +786,7 @@ export default function RecruitmentDashboard() {
 
               {filteredMatches.length === 0 && (
                 <div className="card text-center py-3xl">
-                  <Target className="h-16 w-16 text-muted mx-auto mb-lg" />
+                  <BarChart3 className="h-16 w-16 text-muted mx-auto mb-lg" />
                   <h3 className="text-xl font-semibold text-foreground mb-sm">No matches found</h3>
                   <p className="text-muted mb-xl">
                     {selectedJob
@@ -804,7 +799,7 @@ export default function RecruitmentDashboard() {
                       disabled={loading}
                       className="btn-primary px-xl py-lg rounded-lg font-medium inline-flex items-center gap-sm disabled:opacity-50"
                     >
-                      <Target className="h-5 w-5" />
+                      <BarChart3 className="h-5 w-5" />
                       {loading ? 'Generating Matches...' : 'Generate Matches'}
                     </button>
                   )}
